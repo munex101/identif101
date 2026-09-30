@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { AppView } from '../types';
+import { StreakBadge } from './Streak';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -23,11 +24,13 @@ const Layout: React.FC<LayoutProps> = ({ children, activeView, setView }) => {
             </svg>
           </div>
           <div className="hidden sm:block">
-            <h1 className="text-xl font-black tracking-tighter text-stone-100 uppercase leading-none">IDENTIF MUNEX</h1>
-            <p className="text-[9px] text-orange-500 font-black tracking-widest uppercase">MUN DATABSAE</p>
+            <h1 className="text-xl font-black tracking-tighter text-stone-100 uppercase leading-none">IDENTIF 101</h1>
+            <p className="text-[9px] text-orange-500 font-black tracking-widest uppercase">MUN DATABASE</p>
           </div>
         </div>
 
+        <div className="flex items-center gap-2">
+        <StreakBadge onClick={() => setView('home')} />
         <nav className="flex gap-1 bg-stone-950/50 p-1 rounded-2xl border border-stone-800 shadow-inner">
           <NavButton 
             active={activeView === 'home'} 
@@ -48,6 +51,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeView, setView }) => {
             icon={<path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />}
           />
         </nav>
+        </div>
       </header>
 
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 py-8">

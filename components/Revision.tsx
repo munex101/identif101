@@ -1,5 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Ordnance, CustomList } from '../types';
+import { recordReview } from '../streak';
+import { StreakCelebration } from './Streak';
 
 interface RevisionProps {
   munitions: Ordnance[];
@@ -23,6 +25,7 @@ const Revision = ({ munitions }: RevisionProps) => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [randomImgIdx, setRandomImgIdx] = useState(0);
   const [backImgIdx, setBackImgIdx] = useState(0);
+  const [celebrate, setCelebrate] = useState<number | null>(null);
 
   const subCatKey = (category: string, subCategory: string) => `${category}::${subCategory}`;
 
@@ -177,6 +180,10 @@ const Revision = ({ munitions }: RevisionProps) => {
     if (!activeId) return;
     setIsTransitioning(true);
 
+    // Série quotidienne : chaque carte notée compte
+    const { state, justValidated } = recordReview();
+    if (justValidated) setCelebrate(state.current);
+
     // 1. On retourne la carte vers le recto (image)
     setIsFlipped(false);
 
@@ -208,6 +215,7 @@ const Revision = ({ munitions }: RevisionProps) => {
   if (isConfiguring) {
     return (
       <div className="max-w-4xl mx-auto py-12 space-y-10 animate-in">
+        {celebrate !== null && <StreakCelebration days={celebrate} onClose={() => setCelebrate(null)} />}
         <div>
           <h2 className="text-5xl font-black text-stone-100 tracking-tighter uppercase mb-2">Centre de Drill</h2>
           <p className="text-stone-500 font-medium">Configurez votre protocole d'identification.</p>
@@ -400,6 +408,7 @@ const Revision = ({ munitions }: RevisionProps) => {
 
   return (
     <div className="max-w-2xl mx-auto py-8 sm:py-12 flex flex-col min-h-[600px] animate-in">
+      {celebrate !== null && <StreakCelebration days={celebrate} onClose={() => setCelebrate(null)} />}
       <div className="flex justify-between items-center mb-8">
         <div className="flex items-center gap-3">
            <div className="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
