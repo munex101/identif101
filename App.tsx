@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import Catalogue from './components/Catalogue';
 import Revision from './components/Revision';
 import { AppView, Ordnance } from './types';
+import { StreakPanel } from './components/Streak';
 
 /**
  * Initialisation du registre MunDB.
@@ -102,12 +103,14 @@ const Home: React.FC<{ setView: (v: AppView) => void, stats: any }> = ({ setView
   <div className="space-y-16 py-12 animate-in">
     <div className="max-w-4xl">
       <h1 className="text-7xl lg:text-9xl font-black text-stone-100 tracking-tighter mb-8 leading-[0.85]">
-        IDENTIF <span className="text-orange-600 italic">MUNEX</span><br/>
+        IDENTIF <span className="text-orange-600 italic">101</span><br/>
       </h1>
       <p className="text-2xl text-stone-500 max-w-2xl leading-relaxed font-medium italic">
         "Base de données de munitions et mines pour l'entrainement à l'identification. Toutes les données proviennent de sources ouvertes."
       </p>
     </div>
+
+    <StreakPanel onStart={() => setView('revision')} />
 
     {stats.total === 0 && (
       <div className="bg-red-600/10 border border-red-600/30 p-10 rounded-[3rem] flex items-start gap-8 shadow-2xl">
